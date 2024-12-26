@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Explorer</title>
+  <style>
+      /* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f3f4f6;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* Header Section */
+#header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #00865a;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px 5px 0 0;
+}
+
+#back-button {
+  margin-right: 15px;
+  padding: 6px 20px;
+  background-color: #a73e00;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+#back-button:hover {
+  background-color: #a73e000;
+}
+
+#current-path {
+  font-size: 1.1em;
+  font-weight: bold;
+  flex-grow: 1;
+  text-align: center;
+}
+
+/* File Area */
+#file-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  overflow-y: auto;
+  height: auto;
+}
+
+/* File/Folder Item */
+.file-item {
+  width: 120px;
+  text-align: center;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.file-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.file-item .file-icon {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  transition: transform 0.2s;
+}
+
+.file-item:hover .file-icon {
+  transform: scale(1.1);
+}
+
+.file-item .file-name {
+  font-size: 0.9em;
+  color: #444;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+  max-width: 100px;
+}
+
+/* File Details */
+#file-details {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 1em;
+  color: #444;
+  font-weight: 500;
+  text-align: center;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Back Button Styling */
+#back-button {
+  padding: 8px 16px;
+  background-color: #ffffe0; 
+  border-radius: 6px;
+  font-weight: bold;
+  color: black;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#back-button:hover {
+  background-color: #005a8b;
+}
+
+//* Smooth Scroll for File Area */
+#file-area {
+  overflow-y: auto;
+  height: calc(100vh - 160px);
+  scrollbar-width: thin;    
+  scrollbar-color: #888 #e0e0e0;
+}
+
+#file-area::-webkit-scrollbar {
+  width: 10px; /* Increased scrollbar width */
+}
+
+#file-area::-webkit-scrollbar-track {
+  background: #e0e0e0; /* Fixed syntax error */
+  border-radius: 2px; /* Fixed typo */
+}
+
+#file-area::-webkit-scrollbar-thumb {
+  background-color: #888; /* Fixed syntax error */
+  border-radius: 2px; /* Fixed typo */
+}
+
+#file-area::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  #file-area {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .file-item {
+    width: 90%;
+    margin: 10px 0;
+  }
+
+  #current-path {
+    font-size: 1em;
+  }
+}
+  </style>
+</head>
+<body>
+  <div id="header">
+    <button id="back-button" style="display: none;">Back</button>
+    <span id="current-path">BUJSO > Home</span>
+  </div>
+  <div id="file-area"></div>
+  <div id="file-details">Select a file or folder to view details.</div>
+  <script>
+      
+      
+      // Initial File System Structure
+const fileSystem = {
+  "BUJSO": {
+    "new.html": {
+      icon: "📄",
+      size: "15 KB",
+      link: "path/to/new.html",
+      timestamp: "2024-11-19 02:00 PM",
+    },
+    "New folder": {
+      "HSC 26": {
+        "PDFS": {
+          "NEW.PDF": {
+            icon: "📄",
+            size: "200 KB",
+            link: "path/to/new.pdf",
+            timestamp: "2024-11-19 02:30 PM",
+          },
+        },
+      },
+    },
+  },
+  
+  "BIOLOGY":{
+      "NEW FOLDER 01":{}
+  },
+  "New folder 02":{},
+  "TechEdu":{
+      "New folder ":{
+          "EBI 2.0":{
+              
+          },
+          "নতুন একটি লাইভ সেশন চালু হওয়ার পূর্ব মুহূর্তে.pdf)!":{
+             icon: "📑",
+             size: "200 KB",
+             link: "path/to/new.pdf",
+             timestamp: "2024-11-19 02:30 PM",
+          
+          },
+      },
+      "Easy Pdf":{},
+  },
+  "Know":{},
+  "Hello":{},
+  "testing ":{},
+  "Book":{},
+  "new":{},
+};
+
+// Current Path Tracker
+let currentPath = [];
+
+// Render File Explorer
+function renderFileSystem() {
+  const fileArea = document.getElementById("file-area");
+  const currentPathSpan = document.getElementById("current-path");
+  const fileDetails = document.getElementById("file-details");
+
+  // Clear previous content
+  fileArea.innerHTML = "";
+  fileDetails.textContent = "Select a file or folder to view details.";
+
+  // Navigate to the current directory
+  let currentDir = fileSystem;
+  for (const folder of currentPath) {
+    currentDir = currentDir[folder];
+  }
+
+  // Update the path display
+  currentPathSpan.textContent = "BUJSO > " + (currentPath.length ? currentPath.join(" > ") : "Home");
+
+  // Render files and folders
+  for (const key in currentDir) {
+    const item = currentDir[key];
+    const isFolder = typeof item === "object" && !item.link;
+
+    const itemDiv = document.createElement("div");
+    itemDiv.className = "file-item";
+    itemDiv.innerHTML = `
+      <div class="file-icon">${isFolder ? "📁" : item.icon}</div>
+      <div class="file-name">${key}</div>
+    `;
+
+    // Add click event to show details
+    itemDiv.addEventListener("click", () => {
+      fileDetails.textContent = isFolder
+        ? `Folder: ${key}`
+        : `File: ${key} | Size: ${item.size} | Last Modified: ${item.timestamp}`;
+    });
+
+    // Add double-click event to navigate
+    if (isFolder) {
+      itemDiv.addEventListener("dblclick", () => {
+        currentPath.push(key);
+        renderFileSystem();
+      });
+    } else {
+      itemDiv.addEventListener("dblclick", () => {
+        window.open(item.link, "_blank");
+      });
+    }
+
+    fileArea.appendChild(itemDiv);
+  }
+
+  // Show back button only if not in root
+  document.getElementById("back-button").style.display = currentPath.length ? "inline-block" : "none";
+}
+
+// Back Button
+document.getElementById("back-button").addEventListener("click", () => {
+  currentPath.pop();
+  renderFileSystem();
+});
+
+// Initial Render
+renderFileSystem();
+  </script>
+</body>
+</html>
