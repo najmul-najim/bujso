@@ -3,55 +3,115 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CV Generator</title>
+  <title>Professional CV Generator</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+    }
+    #cv-preview {
+      width: 800px;
+      margin: auto;
+      padding: 20px;
+      border: 2px solid #ddd;
+      background-color: #ffffff;
+      color: #333;
+      border-radius: 10px;
+    }
+    #cv-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #333;
+    }
+    #cv-content h3 {
+      color: #007bff;
+      margin-top: 15px;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
-  <div class="container mx-auto p-4">
-    <h1 class="text-3xl font-bold text-center mb-6">CV Generator</h1>
-    <div id="form-container" class="bg-white shadow-md rounded-lg p-6">
+<body>
+  <div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold text-center mb-6">Professional CV Generator</h1>
+    <div class="bg-white shadow-md rounded-lg p-6">
       <form id="cv-form">
+        <!-- Personal Info -->
+        <h2 class="text-xl font-semibold mb-4">Personal Information</h2>
         <div class="mb-4">
-          <label for="name" class="block text-gray-700">Name</label>
-          <input type="text" id="name" class="w-full border rounded p-2" placeholder="Enter your name" />
+          <label for="name" class="block text-gray-700">Full Name</label>
+          <input type="text" id="name" class="w-full border rounded p-2" placeholder="Enter your full name" />
         </div>
         <div class="mb-4">
-          <label for="email" class="block text-gray-700">Email</label>
-          <input type="email" id="email" class="w-full border rounded p-2" placeholder="Enter your email" />
+          <label for="photo" class="block text-gray-700">Profile Photo</label>
+          <input type="file" id="photo" accept="image/*" class="w-full border rounded p-2" />
         </div>
         <div class="mb-4">
-          <label for="phone" class="block text-gray-700">Phone</label>
-          <input type="text" id="phone" class="w-full border rounded p-2" placeholder="Enter your phone number" />
+          <label for="address" class="block text-gray-700">Address</label>
+          <input type="text" id="address" class="w-full border rounded p-2" placeholder="Enter your address" />
         </div>
         <div class="mb-4">
-          <label for="education" class="block text-gray-700">Education</label>
-          <textarea id="education" class="w-full border rounded p-2" placeholder="List your education"></textarea>
+          <label for="linkedin" class="block text-gray-700">LinkedIn Profile</label>
+          <input type="url" id="linkedin" class="w-full border rounded p-2" placeholder="Enter your LinkedIn URL" />
         </div>
         <div class="mb-4">
-          <label for="experience" class="block text-gray-700">Experience</label>
+          <label for="portfolio" class="block text-gray-700">Portfolio/GitHub</label>
+          <input type="url" id="portfolio" class="w-full border rounded p-2" placeholder="Enter your portfolio or GitHub URL" />
+        </div>
+        <!-- Profile Summary -->
+        <h2 class="text-xl font-semibold mb-4">Profile Summary</h2>
+        <div class="mb-4">
+          <textarea id="summary" class="w-full border rounded p-2" placeholder="Write a short profile summary..."></textarea>
+        </div>
+        <!-- Education -->
+        <h2 class="text-xl font-semibold mb-4">Education</h2>
+        <div class="mb-4">
+          <textarea id="education" class="w-full border rounded p-2" placeholder="List your education details"></textarea>
+        </div>
+        <!-- Work Experience -->
+        <h2 class="text-xl font-semibold mb-4">Work Experience</h2>
+        <div class="mb-4">
           <textarea id="experience" class="w-full border rounded p-2" placeholder="List your work experience"></textarea>
         </div>
+        <!-- Skills -->
+        <h2 class="text-xl font-semibold mb-4">Skills</h2>
         <div class="mb-4">
-          <label for="skills" class="block text-gray-700">Skills</label>
           <textarea id="skills" class="w-full border rounded p-2" placeholder="List your skills"></textarea>
         </div>
-        <button type="button" id="generate-btn" class="bg-blue-500 text-white px-4 py-2 rounded">
-          Generate PDF
-        </button>
+        <!-- Certifications -->
+        <h2 class="text-xl font-semibold mb-4">Certifications</h2>
+        <div class="mb-4">
+          <textarea id="certifications" class="w-full border rounded p-2" placeholder="List your certifications"></textarea>
+        </div>
+        <!-- Generate Button -->
+        <button type="button" id="generate-btn" class="bg-blue-500 text-white px-4 py-2 rounded">Generate CV</button>
       </form>
     </div>
-    <div id="cv-preview" class="hidden mt-6 p-6 bg-white rounded-lg shadow-md">
-      <h2 class="text-xl font-bold" id="preview-name"></h2>
-      <p id="preview-email"></p>
-      <p id="preview-phone"></p>
-      <h3 class="mt-4 font-bold">Education</h3>
-      <p id="preview-education"></p>
-      <h3 class="mt-4 font-bold">Experience</h3>
-      <p id="preview-experience"></p>
-      <h3 class="mt-4 font-bold">Skills</h3>
-      <p id="preview-skills"></p>
+    <!-- CV Preview -->
+    <div id="cv-preview" class="hidden mt-6">
+      <div id="cv-header">
+        <div>
+          <h1 id="preview-name" class="text-2xl font-bold"></h1>
+          <p id="preview-address"></p>
+          <p id="preview-linkedin"></p>
+          <p id="preview-portfolio"></p>
+        </div>
+      </div>
+      <div id="cv-content">
+        <h3>Profile Summary</h3>
+        <p id="preview-summary"></p>
+        <h3>Education</h3>
+        <p id="preview-education"></p>
+        <h3>Work Experience</h3>
+        <p id="preview-experience"></p>
+        <h3>Skills</h3>
+        <p id="preview-skills"></p>
+        <h3>Certifications</h3>
+        <p id="preview-certifications"></p>
+      </div>
     </div>
   </div>
   <script src="script.js"></script>
