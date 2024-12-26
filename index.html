@@ -3,79 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BUJSO - Education Made Easy</title>
-    <link rel="stylesheet" href="styles/style.css">
+    <title>BUJSO Educational Website</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AOS Animation CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
 </head>
-<body>
-   <div class="circle-container"></div>
-    
-    <header id="main-header">
-        <div class="container">
-            <h1>BUJSO</h1>
-            <nav>
-                <div id="sidebar">
-    <button id="close-btn">&times;</button>
-    <ol>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#home">Navigation</a></li>
-        <li><a href="filem.html">Files</a></li>
-        <li><a href="subject/subject.html">Subjects</a></li>
-        <li><a href="blogs.html">Blogs</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ol>
-</div>
-<button id="menu-btn">&#9776;</button>
-            </nav>
-        </div>
-    </header>
-
-    <section id="home">
-        <div class="container">
-            <h2 id="welcomemessage">Welcome to BUJSO</h2>
-            <p>Your trusted educational partner. Explore top-quality resources for Physics, Chemistry, Math, and more!</p>
-            <a href="#services" class="btn">Explore Now</a>
-        </div>
-    </section>
-
-    <section id="about">
-        <div class="container">
-            <h2>About Us</h2>
-            <p>BUJSO is committed to providing free, reliable educational resources to students worldwide. We believe education is the key to unlocking potential.</p>
-        </div>
-    </section>
-
-    <section id="services">
-        <div class="container">
-            <h2>Our Services</h2>
-            <ul>
-                <li>📚 Comprehensive Notes</li>
-                <li>🎯 Chapter-Wise Notes</li>
-                 <li>📋 Easy Explained</li>
-                <li>📝 Chapter Shorting</li>
-                <li>📕Study Techniques</li>
-                <li>🪧 Quick Revision Guide</li>
-                
-                <li>📈 Progress Tracking</li>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navbar -->
+    <nav class="bg-gradient-to-r from-blue-500 to-teal-400 p-4 fixed w-full shadow-lg z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-white font-bold text-xl">BUJSO</h1>
+            <ul class="flex space-x-4">
+                <li><a href="#home" class="text-white hover:text-gray-200">Home</a></li>
+                <li><a href="#about" class="text-white hover:text-gray-200">About</a></li>
+                <li><a href="#features" class="text-white hover:text-gray-200">Features</a></li>
+                <li><a href="#blog" class="text-white hover:text-gray-200">Blog</a></li>
+                <li><a href="#contact" class="text-white hover:text-gray-200">Contact</a></li>
             </ul>
         </div>
-    </section>
+    </nav>
 
-    <section id="contact">
-        <div class="container">
-            <h2>Contact Us</h2>
-            <p>Email: <a href="mailto:mail.najmulnajim@gmail.com">contact@bujso.com</a></p>
+    <!-- Hero Section -->
+    <section id="home" class="pt-20 pb-16 bg-gradient-to-b from-teal-400 to-blue-500 text-white text-center">
+        <div class="container mx-auto">
+            <h1 class="text-4xl font-bold mb-4" data-aos="fade-up">Welcome to BUJSO</h1>
+            <p class="text-lg" data-aos="fade-up" data-aos-delay="200">Your gateway to quality education and resources</p>
+            <button class="mt-6 bg-white text-blue-500 px-4 py-2 rounded shadow-lg hover:bg-gray-200" onclick="navigateTo('#features')">Explore Features</button>
         </div>
     </section>
-<footer class="footer">
-    <p>&copy; 2024 Bujso. All Rights Reserved.</p>
-    <a href="#">Privacy Policy</a>
-    <a href="#">Terms of Service</a>
-    <a href="#">Contact Us</a>
-    <small>Designed with 💕 and dedication.</small>
-</footer>
-    
-    <script src="scripts/scripts.js"></script>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-6" data-aos="fade-right">About BUJSO</h2>
+            <p class="text-lg text-gray-700 max-w-2xl mx-auto" data-aos="fade-up">
+                BUJSO is a platform designed to help students excel academically by providing access to top-notch educational resources, tutorials, and mentorship programs.
+            </p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-gray-100">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-6" data-aos="fade-left">Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 shadow-lg rounded-lg" data-aos="flip-left">
+                    <h3 class="text-xl font-bold mb-2">Interactive Tutorials</h3>
+                    <p class="text-gray-600">Engage in hands-on learning through our interactive tutorials.</p>
+                </div>
+                <div class="bg-white p-6 shadow-lg rounded-lg" data-aos="flip-left" data-aos-delay="200">
+                    <h3 class="text-xl font-bold mb-2">Expert Mentorship</h3>
+                    <p class="text-gray-600">Learn from professionals and enhance your skills.</p>
+                </div>
+                <div class="bg-white p-6 shadow-lg rounded-lg" data-aos="flip-left" data-aos-delay="400">
+                    <h3 class="text-xl font-bold mb-2">Comprehensive Resources</h3>
+                    <p class="text-gray-600">Access a library of curated educational materials.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-16 bg-white">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-6" data-aos="fade-right">Latest Blogs</h2>
+            <p class="text-lg text-gray-700 max-w-2xl mx-auto mb-10" data-aos="fade-up">
+                Discover insights and tips on education, productivity, and more!
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-gray-100 p-6 shadow-lg rounded-lg" data-aos="fade-up">
+                    <h3 class="text-xl font-bold mb-2">5 Study Hacks for Better Grades</h3>
+                    <p class="text-gray-600">Learn techniques to boost your academic performance.</p>
+                </div>
+                <div class="bg-gray-100 p-6 shadow-lg rounded-lg" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="text-xl font-bold mb-2">Top Online Resources for Students</h3>
+                    <p class="text-gray-600">Explore tools that can help in your learning journey.</p>
+                </div>
+                <div class="bg-gray-100 p-6 shadow-lg rounded-lg" data-aos="fade-up" data-aos-delay="400">
+                    <h3 class="text-xl font-bold mb-2">Balancing Work and Study</h3>
+                    <p class="text-gray-600">Tips to manage time effectively between academics and other responsibilities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gradient-to-b from-blue-500 to-teal-400 text-white text-center">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold mb-6" data-aos="fade-right">Get in Touch</h2>
+            <p class="text-lg max-w-lg mx-auto" data-aos="fade-up">Have questions? Reach out to us anytime.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 BUJSO. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" class="hidden fixed bottom-5 right-5 bg-blue-500 text-white p-2 rounded-full shadow-lg">
+        ↑
+    </button>
+
+    <!-- AOS Animation Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+
+    <!-- Routing Script -->
+    <script>
+        function navigateTo(sectionId) {
+            const section = document.querySelector(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                show404Page();
+            }
+        }
+
+        function show404Page() {
+            document.body.innerHTML = `
+                <div class="h-screen flex flex-col justify-center items-center bg-gray-100 text-gray-800">
+                    <h1 class="text-5xl font-bold mb-4">404</h1>
+                    <p class="text-xl mb-6">Oops! The page you’re looking for doesn’t exist.</p>
+                    <button onclick="location.reload()" class="bg-blue-500 text-white px-4 py-2 rounded">Go Back</button>
+                </div>
+            `;
+        }
+    </script>
+
+    <!-- Scroll to Top Script -->
+    <script>
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        window.onscroll = function () {
+            if (document.documentElement.scrollTop > 200) {
+                scrollTopBtn.classList.remove('hidden');
+            } else {
+                scrollTopBtn.classList.add('hidden');
+            }
+        };
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
 </body>
 </html>
