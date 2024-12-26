@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MS Office-like Text Editor</title>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.4.0/dist/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f0f0;
+    }
+    .container {
+      width: 80%;
+      margin: 20px auto;
+    }
+    .toolbar {
+      background: #007bff;
+      padding: 10px;
+      color: white;
+      border-radius: 5px;
+      text-align: center;
+    }
+    .toolbar button {
+      padding: 10px;
+      margin: 5px;
+      cursor: pointer;
+      background: #0056b3;
+      border: none;
+      color: white;
+      border-radius: 5px;
+    }
+    .toolbar button:hover {
+      background: #00408e;
+    }
+    .editor {
+      width: 100%;
+      height: 400px;
+      border: 2px solid #ccc;
+      background: white;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 5px;
+      overflow-y: auto;
+    }
+    .canvas-container {
+      margin-top: 20px;
+      border: 2px dashed #ccc;
+      padding: 20px;
+      border-radius: 5px;
+      background-color: white;
+    }
+    canvas {
+      border: 1px solid #000;
+      width: 100%;
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="text-align: center;">Rich Text Editor</h1>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <button onclick="boldText()">B</button>
+      <button onclick="italicText()">I</button>
+      <button onclick="underlineText()">U</button>
+      <button onclick="changeFontColor()">Font Color</button>
+      <button onclick="changeFontSize()">Font Size</button>
+      <button onclick="justifyLeft()">Left Align</button>
+      <button onclick="justifyCenter()">Center Align</button>
+      <button onclick="justifyRight()">Right Align</button>
+      <button onclick="insertTable()">Insert Table</button>
+      <button onclick="insertShape()">Insert Shape</button>
+      <button onclick="saveAsPDF()">Save as PDF</button>
+    </div>
+
+    <!-- Text Editor -->
+    <div class="editor" contenteditable="true" id="editor">
+      Start typing your content here...
+    </div>
+
+    <!-- Canvas for Drawing -->
+    <div class="canvas-container">
+      <h2>Draw Shapes</h2>
+      <canvas id="drawingCanvas"></canvas>
+      <button onclick="clearCanvas()">Clear Canvas</button>
+    </div>
+  </div>
+
+  <script>
+    // Function to make text bold
+    function boldText() {
+      document.execCommand('bold');
+    }
+
+    // Function to make text italic
+    function italicText() {
+      document.execCommand('italic');
+    }
+
+    // Function to underline text
+    function underlineText() {
+      document.execCommand('underline');
+    }
+
+    // Function to change font color
+    function changeFontColor() {
+      let color = prompt("Enter a color (e.g., red, #ff0000, rgb(255,0,0))");
+      document.execCommand('foreColor', false, color);
+    }
+
+    // Function to change font size
+    function changeFontSize() {
+      let size = prompt("Enter font size (e.g., 1 to 7)");
+      document.execCommand('fontSize', false, size);
+    }
+
+    // Function to align text left
+    function justifyLeft() {
+      document.execCommand('justifyLeft');
+    }
+
+    // Function to align text center
+    function justifyCenter() {
+      document.execCommand('justifyCenter');
+    }
+
+    // Function to align text right
+    function justifyRight() {
+      document.execCommand('justifyRight');
+    }
+
+    // Function to insert a table
+    function insertTable() {
+      let rows = prompt("Enter the number of rows:");
+      let cols = prompt("Enter the number of columns:");
+      let table = '<table border="1" style="width:100%;">';
+      for (let i = 0; i < rows; i++) {
+        table += '<tr>';
+        for (let j = 0; j < cols; j++) {
+          table += '<td>Cell</td>';
+        }
+        table += '</tr>';
+      }
+      table += '</table>';
+      document.execCommand('insertHTML', false, table);
+    }
+
+    // Function to insert a shape (circle or rectangle)
+    function insertShape() {
+      let shape = prompt("Enter the shape (circle or rectangle):");
+      let color = prompt("Enter the color of the shape:");
+      let shapeHTML = '';
+      if (shape === "circle") {
+        shapeHTML = `<div style="width: 50px; height: 50px; background-color: ${color}; border-radius: 50%;"></div>`;
+      } else if (shape === "rectangle") {
+        shapeHTML = `<div style="width: 100px; height: 50px; background-color: ${color};"></div>`;
+      }
+      document.execCommand('insertHTML', false, shapeHTML);
+    }
+
+    // Function to save content as PDF
+    function saveAsPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Get the content of the editor
+      const content = document.getElementById('editor').innerHTML;
+
+      // Add content to the PDF
+      doc.text(content.replace(/<\/?[^>]+(>|$)/g, ""), 10, 10); // Remove HTML tags
+
+      // Save PDF
+      doc.save('document.pdf');
+    }
+
+    // Drawing functionality
+    const canvas = document.getElementById('drawingCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas dimensions
+    canvas.width = 600;
+    canvas.height = 300;
+
+    // Draw functionality
+    let drawing = false;
+
+    canvas.addEventListener('mousedown', (e) => {
+      drawing = true;
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY);
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (drawing) {
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+      }
+    });
+
+    canvas.addEventListener('mouseup', () => {
+      drawing = false;
+    });
+
+    // Function to clear the canvas
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  </script>
+</body>
+</html>
