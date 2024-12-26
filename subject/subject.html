@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class & Subject Selector</title>
+  <link rel="stylesheet" href="subject.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to the Class & Subject Selector</h1>
+    
+    <!-- Class Selection -->
+    <div class="card">
+      <h2>Select a Class</h2>
+      <select id="class-select">
+        <option value="" disabled selected>Choose a class</option>
+      </select>
+    </div>
+
+    <!-- Subject Selection -->
+    <div class="card" id="subject-container" style="display: none;">
+      <h2>Select a Subject</h2>
+      <select id="subject-select">
+        <option value="" disabled selected>Choose a subject</option>
+      </select>
+    </div>
+
+    <!-- Chapter List -->
+    <div class="card" id="chapters-container" style="display: none;">
+      <h2>Chapters</h2>
+      <ul id="chapter-list">
+        <!-- Chapters will be dynamically added here -->
+      </ul>
+    </div>
+  </div>
+
+  <script src="subject.js"></script>
+</body>
+</html>
