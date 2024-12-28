@@ -36,10 +36,67 @@ function createCircle() {
 // Create circles at regular intervals
 setInterval(createCircle, 600); // Adjust frequency of circle creation
 
-document.getElementById('menu-btn').addEventListener('click', function() {
-    document.getElementById('sidebar').classList.add('active');
+// Get the elements
+// Get the elements
+const menuBtn = document.getElementById('menu-btn');
+const closeBtn = document.getElementById('close-btn');
+const sidebar = document.getElementById('sidebar');
+
+// Open the sidebar when the menu button is clicked
+menuBtn.addEventListener('click', function() {
+    sidebar.classList.add('active'); // Show the sidebar
 });
 
-document.getElementById('close-btn').addEventListener('click', function() {
-    document.getElementById('sidebar').classList.remove('active');
+// Close the sidebar when the close button is clicked
+closeBtn.addEventListener('click', function() {
+    sidebar.classList.remove('active'); // Hide the sidebar
 });
+
+// Close the sidebar when clicking anywhere outside the sidebar
+document.addEventListener('click', function(event) {
+    if (!sidebar.contains(event.target) && !menuBtn.contains(event.target)) {
+        sidebar.classList.remove('active'); 
+        menuBtn.classList.remove('hidden');
+       closeBtn.classList.add('hidden');// Close the sidebar
+    }
+});
+closeBtn.classList.add('hidden');
+
+menuBtn.addEventListener('click', () => {
+    menuBtn.classList.add('hidden');
+    closeBtn.classList.remove('hidden');
+});
+
+closeBtn.addEventListener('click', () => {
+    closeBtn.classList.add('hidden');
+    menuBtn.classList.remove('hidden');
+});
+
+
+// Reference to the checkbox
+const toggleButton = document.getElementById('toggleButton');
+
+// Check if dark mode is already enabled in localStorage
+if (localStorage.getItem('darkMode') === 'enabled') {
+  document.body.classList.add('dark-mode');
+  toggleButton.checked = true; // Check the checkbox
+}
+
+// Toggle dark mode on checkbox change
+toggleButton.addEventListener('change', () => {
+  if (toggleButton.checked) {
+    document.body.classList.add('dark-mode');
+    localStorage.setItem('darkMode', 'enabled'); // Save state
+  } else {
+    document.body.classList.remove('dark-mode');
+    localStorage.setItem('darkMode', 'disabled'); // Save state
+  }
+});
+
+window.onload = () => {
+    setTimeout(() => {
+        document.getElementById("newb").click();
+    }, 3000);
+};
+
+// Optional: Add an event listener for the button to see the effect
